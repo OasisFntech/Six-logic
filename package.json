@@ -6,11 +6,11 @@
     "scripts": {},
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/OasisFntech/logic.git"
+        "url": "git+https://github.com/OasisFntech/Six-logic.git"
     },
     "author": "Cyan",
     "license": "ISC",
-    "homepage": "https://github.com/OasisFntech/logic.git",
+    "homepage": "https://github.com/OasisFntech/Six-logic.git",
     "dependencies": {
         "@vueuse/core": "^10.4.1",
         "axios": "^1.7.8",
