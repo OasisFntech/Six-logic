@@ -3,7 +3,6 @@ import { set } from '@vueuse/core'
 
 export * from './apis'
 export * from './axios'
-export * from './stocket'
 
 import axios from './axios'
 import { utils_assign_object } from '../utils'

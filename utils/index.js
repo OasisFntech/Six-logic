@@ -3,8 +3,6 @@ import { useClipboard } from '@vueuse/core'
 import _ from 'lodash'
 
 import { assetsDomains } from '../config'
-export * from './charts'
-export * from './stock'
 
 /**
  * @function utils_base64

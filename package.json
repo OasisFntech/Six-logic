@@ -1,6 +1,6 @@
 {
     "name": "frontend_common",
-    "version": "0.0.180",
+    "version": "0.0.001",
     "description": "frontend use",
     "main": "",
     "scripts": {},
@@ -16,7 +16,6 @@
         "axios": "^1.7.8",
         "classnames": "^2.5.1",
         "dayjs": "^1.11.13",
-        "echarts": "^5.5.1",
         "jsencrypt": "^3.3.2",
         "lodash": "^4.17.21",
         "pako": "^2.1.0",
