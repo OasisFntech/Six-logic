@@ -23,7 +23,7 @@ export const createSocket = (socketUri) => {
         )
 
         socket.on('connect', (con) => {
-            console.log('socket connected successfully')
+            // console.log('socket connected successfully')
         })
     }
 }

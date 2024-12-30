@@ -19,9 +19,7 @@ export const useVerifyStore = defineStore('verify', () => {
     }
 
     const setConfig = (newConfig) =>{
-        console.log('object',newConfig)
         config.value = {...newConfig}
-        console.log(config.value )
     }
 
     return {

@@ -72,22 +72,48 @@ export const useSiteConfigStore = defineStore('siteConfig', () => {
         yueBaoLimitEnd: '',
     })
 
+    // 检查域名是否可用的方法
+    const checkDomainAvailability = (domain) => {
+        return new Promise((resolve, reject) => {
+            const img = new Image()
+            img.src = `https://${domain}/media/image/check_image_0101.png`
+            img.onload = () => resolve(domain)
+            img.onerror = () => reject(domain)
+        })
+    }
+
+    // 验证 localStorage 中的域名是否可用
+    const validateSavedDomain = async () => {
+        const savedDomain = localStorage.getItem('validDomain')
+        if (savedDomain) {
+            try {
+                await checkDomainAvailability(savedDomain)
+                assetsDomains.push(savedDomain)
+            } catch (error) {
+                localStorage.removeItem('validDomain')
+            }
+        } else {
+            // console.warn('No domain found in localStorage to validate.')
+        }
+    }
+
     const { onRefresh: onRefreshSiteConfig } = useRequest({
         url: COMMON_API_PATH.SITE_CONFIG,
         onSuccess: async(res) => {
-            if (!res.imgDomains || res.imgDomains.trim() === '') {
-                console.warn('No image domains provided');
-            } else {
-                const domains = res.imgDomains.split(',')
-                if (domains.length) {
-                    domains.forEach(e => {
-                        const img = new Image()
-                        img.src = `https://${e}/media/image/check_image_0101.png`
-                        img.onload = () => {
-                            assetsDomains.push(e)
-                        }
-                    })
+            const savedDomain = localStorage.getItem('validDomain')
+            if (savedDomain) {
+                const img = new Image()
+                img.src = `https://${savedDomain}/media/image/check_image_0101.png`
+                img.onload = () => {
+                    assetsDomains.push(savedDomain)
                 }
+                img.onerror = () => {
+                    // console.warn(`Saved domain is invalid: ${savedDomain}`)
+                    localStorage.removeItem('validDomain')
+                    detectNewDomains(res)
+                }
+            } else {
+                detectNewDomains(res)
             }
 
             siteConfig.value = utils_assign_object(siteConfig.value, res, true)
@@ -98,6 +124,31 @@ export const useSiteConfigStore = defineStore('siteConfig', () => {
             utils_favicon(utils_assets_src(res.titleAddress))
         }
     })
+
+    // 检测新的域名
+    const detectNewDomains = (res) => {
+        if (!res.imgDomains || res.imgDomains.trim() === '') {
+            console.warn('No image domains provided')
+            return
+        }
+
+        const domains = res.imgDomains.split(',')
+        if (domains.length) {
+            let savedToLocalStorage = false
+
+            domains.forEach((e) => {
+                const img = new Image()
+                img.src = `https://${e}/media/image/check_image_0101.png`
+                img.onload = () => {
+                    if (!savedToLocalStorage) {
+                        assetsDomains.push(e)
+                        localStorage.setItem('validDomain', e)
+                        savedToLocalStorage = true
+                    }
+                }
+            })
+        }
+    }
 
     // 请求客服配置 ps:后端可优化的接口
     const { onRefresh: onRefreshService, run } = useRequest({
@@ -125,7 +176,8 @@ export const useSiteConfigStore = defineStore('siteConfig', () => {
         siteConfig,
         logoRes,
         onRefreshService,
-        onRefreshSiteConfig
+        onRefreshSiteConfig,
+        validateSavedDomain
     }
 })
 

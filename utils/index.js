@@ -227,7 +227,6 @@ export const utils_assets_src = (src) => {
 
     const replace = assetsDomains[0] ?? VITE_ASSETS_REPLACE
 
-    console.log(!_.isEqual(VITE_ASSETS_BASE, replace))
     if (VITE_ASSETS_BASE && replace && !_.isEqual(VITE_ASSETS_BASE, replace)) {
         src = src.replace(VITE_ASSETS_BASE, replace)
     }
