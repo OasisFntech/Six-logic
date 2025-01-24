@@ -5,7 +5,6 @@ import { useRequest, COMMON_API_PATH, NOTICE_SOCKET } from '../fetch'
 import { useMessageStore, useUserInfoStore } from './user'
 import { utils_assets_src, utils_assign_object, utils_favicon } from '../utils'
 import { useTitle } from '@vueuse/core'
-import { assetsDomains } from '../config'
 
 export const useSiteConfigStore = defineStore('siteConfig', () => {
     // 站点配置
@@ -88,7 +87,6 @@ export const useSiteConfigStore = defineStore('siteConfig', () => {
         if (savedDomain) {
             try {
                 await checkDomainAvailability(savedDomain)
-                assetsDomains.push(savedDomain)
             } catch (error) {
                 localStorage.removeItem('validDomain')
             }
@@ -105,7 +103,7 @@ export const useSiteConfigStore = defineStore('siteConfig', () => {
                 const img = new Image()
                 img.src = `https://${savedDomain}/media/image/check_image_0101.png`
                 img.onload = () => {
-                    assetsDomains.push(savedDomain)
+                    // assetsDomains.push(savedDomain)
                 }
                 img.onerror = () => {
                     // console.warn(`Saved domain is invalid: ${savedDomain}`)
@@ -141,7 +139,6 @@ export const useSiteConfigStore = defineStore('siteConfig', () => {
                 img.src = `https://${e}/media/image/check_image_0101.png`
                 img.onload = () => {
                     if (!savedToLocalStorage) {
-                        assetsDomains.push(e)
                         localStorage.setItem('validDomain', e)
                         savedToLocalStorage = true
                     }
