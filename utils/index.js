@@ -239,3 +239,10 @@ export const utils_assets_src = (src) => {
 
     return src
 }
+
+// 记录日志
+export const utils_log_event = (message) => {
+    const logString = `[${new Date().toISOString()}] ${message}`
+    const existingLog = localStorage.getItem('testLog') || ''
+    localStorage.setItem('testLog', existingLog + '\n' + logString + '\n')
+}
