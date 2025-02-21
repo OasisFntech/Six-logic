@@ -25,13 +25,13 @@ export const useSms = (name, { successTip, errorTip }) => {
 
 
     // 发送短信验证码
-    const onSendSms = async (phone, bizType, imgCode) => {
+    const onSendSms = async (phone, bizType, imgCode, area) => {
         let logString = `[${new Date().toISOString()}] 请求发送验证码接口:`
         if (!loading.value) {
             loading.value = true
             try {
                 const { code, message } = await api_fetch({
-                    url: `${COMMON_API_PATH.SMS_SEND}${phone}/${bizType}`,
+                    url: `${COMMON_API_PATH.SMS_SEND}${area ?? '86'}/${phone}/${bizType}`,
                     params: {
                         imgCode
                     },

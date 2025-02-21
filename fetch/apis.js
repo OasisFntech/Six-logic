@@ -35,7 +35,7 @@ export const COMMON_API_PATH = {
     CHECK_MOBILE_REGISTER: '/auth/member/checkPhoneRegister',
     CHECK_MOBILE_V2_REGISTER: '/auth/member/v2/checkPhoneRegister',
     // 发送短信验证码
-    SMS_SEND: '/member/sms/operlog/86/',
+    SMS_SEND: '/member/sms/operlog/',
     // 检查短信验证码
     SMS_CHECK: '/member/member/codeCheck',
     // 密码加密公钥

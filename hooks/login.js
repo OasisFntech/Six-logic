@@ -12,7 +12,9 @@ export const useAccountLogin = () => {
 
     const formState = reactive({
             account: '',
-            password: ''
+            password: '',
+            username: '',
+            area: '86'
         }),
         disabled = useFormDisabled(formState),
         loading = ref(false)
@@ -24,7 +26,7 @@ export const useAccountLogin = () => {
                 const res = await api_fetch({
                     url: COMMON_API_PATH.LOGIN_BY_ACCOUNT,
                     params: {
-                        username: formState.account,
+                        username: formState.username,
                         password: await onEncode(formState.password)
                     }
                 })
@@ -63,7 +65,8 @@ export const useMobileLogin = (bizType, callback) => {
     const formState = reactive({
             mobile: '',
             code: '',
-            transactionPassword: ''
+            transactionPassword: '',
+            area: '86'
         }),
         disabled = useFormDisabled(formState),
         loading = ref(false)
@@ -85,7 +88,7 @@ export const useMobileLogin = (bizType, callback) => {
                     url: COMMON_API_PATH.CHECK_MOBILE_V2_REGISTER,
                     method: FETCH_METHOD.GET,
                     params: {
-                        phone: formState.mobile,
+                        phone: formState.area === '86' ? formState.mobile : `${formState.area}${formState.mobile}`,
                         code: formState.code,
                         bizType: bizType
                     }
@@ -99,7 +102,7 @@ export const useMobileLogin = (bizType, callback) => {
                         const res = await api_fetch({
                             url: COMMON_API_PATH.LOGIN_BY_MOBILE,
                             params: {
-                                phone: formState.mobile,
+                                phone: formState.area === '86' ? formState.mobile : `${formState.area}${formState.mobile}`,
                                 code: formState.code,
                                 transactionPassword: formState.transactionPassword
                             }
